@@ -9,10 +9,8 @@ int main(int argc, char *argv[]) {
         const float aspect = H/(float)W;
 
         NSMutableString *obj = [NSMutableString stringWithString:@""];
-        
         [obj appendString:@"mtllib mesh.mtl\n"];
         [obj appendString:@"usemtl mesh\n"];
-
        
         for(int i=0; i<H-1; i++) {
             for(int j=0; j<W-1; j++) {
@@ -42,7 +40,6 @@ int main(int argc, char *argv[]) {
                 [obj appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx2,vy2*aspect,vz2]];
                 [obj appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx3,vy3*aspect,vz3]];
                 [obj appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx4,vy4*aspect,vz4]];
-                
             }
         }
         

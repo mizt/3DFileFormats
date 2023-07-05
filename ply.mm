@@ -14,6 +14,8 @@ int main(int argc, char *argv[]) {
         const unsigned char r = 0;
         const unsigned char g = 0;
         const unsigned char b = 255;
+        
+        const unsigned char num = 3;
 
         NSMutableString *header = [NSMutableString stringWithCapacity:0];
         [header appendString:@"ply\nformat binary_little_endian 1.0\n"];
@@ -119,10 +121,6 @@ int main(int argc, char *argv[]) {
                     }
                 }
             }
-            
-        
-            
-            unsigned char num = 3;
             
             int o = 0;
             for(int i=0; i<H-1; i++) {
