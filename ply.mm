@@ -4,16 +4,16 @@ int main(int argc, char *argv[]) {
     
     @autoreleasepool {
         
-        const int W = 256;
-        const int H = 144;
+        const unsigned short W = 256;
+        const unsigned short H = 144;
         const float aspect = H/(float)W;
 
         const bool pc = true;
 
         const bool rgb = true;
-        unsigned char r = 0;
-        unsigned char g = 0;
-        unsigned char b = 255;
+        const unsigned char r = 0;
+        const unsigned char g = 0;
+        const unsigned char b = 255;
 
         NSMutableString *header = [NSMutableString stringWithCapacity:0];
         [header appendString:@"ply\nformat binary_little_endian 1.0\n"];
@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
         NSMutableData *ply = [[NSMutableData alloc] init];
         NSData *bin = [header dataUsingEncoding:NSUTF8StringEncoding];
         [ply appendBytes:bin.bytes length:bin.length];
-        
         
         if(pc) {
             

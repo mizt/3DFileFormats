@@ -4,15 +4,15 @@ int main(int argc, char *argv[]) {
     
     @autoreleasepool {
         
-        int W = 256;
-        int H = 144;
-        
-        NSMutableString *str = [NSMutableString stringWithString:@""];
-        
-        [str appendString:@"mtllib mesh.mtl\n"];
-        [str appendString:@"usemtl mesh\n"];
+        const unsigned short W = 256;
+        const unsigned short H = 144;
+        const float aspect = H/(float)W;
 
-        float aspect = H/(float)W;
+        NSMutableString *obj = [NSMutableString stringWithString:@""];
+        
+        [obj appendString:@"mtllib mesh.mtl\n"];
+        [obj appendString:@"usemtl mesh\n"];
+
        
         for(int i=0; i<H-1; i++) {
             for(int j=0; j<W-1; j++) {
@@ -38,10 +38,10 @@ int main(int argc, char *argv[]) {
                 float vz3 = 0.0;
                 float vz4 = 0.0;
                 
-                [str appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx1,vy1*aspect,vz1]];
-                [str appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx2,vy2*aspect,vz2]];
-                [str appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx3,vy3*aspect,vz3]];
-                [str appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx4,vy4*aspect,vz4]];
+                [obj appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx1,vy1*aspect,vz1]];
+                [obj appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx2,vy2*aspect,vz2]];
+                [obj appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx3,vy3*aspect,vz3]];
+                [obj appendString:[NSString stringWithFormat:@"v %0.4f %0.4f %0.4f\n",vx4,vy4*aspect,vz4]];
                 
             }
         }
@@ -65,22 +65,22 @@ int main(int argc, char *argv[]) {
                 float vy3 = y2/(float)(H-1);
                 float vy4 = y2/(float)(H-1);
                 
-                [str appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx1,vy1]];
-                [str appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx2,vy2]];
-                [str appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx3,vy3]];
-                [str appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx4,vy4]];
+                [obj appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx1,vy1]];
+                [obj appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx2,vy2]];
+                [obj appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx3,vy3]];
+                [obj appendString:[NSString stringWithFormat:@"vt %0.4f %0.4f\n",vx4,vy4]];
             }
         }
         
         int o = 0;
         for(int i=0; i<H-1; i++) {
             for(int j=0; j<W-1; j++) {
-                [str appendString:[NSString stringWithFormat:@"f %d/%d %d/%d %d/%d\n",o+1,o+1,o+2,o+2,o+4,o+4]];
-                [str appendString:[NSString stringWithFormat:@"f %d/%d %d/%d %d/%d\n",o+2,o+2,o+3,o+3,o+4,o+4]];
+                [obj appendString:[NSString stringWithFormat:@"f %d/%d %d/%d %d/%d\n",o+1,o+1,o+2,o+2,o+4,o+4]];
+                [obj appendString:[NSString stringWithFormat:@"f %d/%d %d/%d %d/%d\n",o+2,o+2,o+3,o+3,o+4,o+4]];
                 o+=4;
             }
         }
         
-        [str writeToFile:@"./mesh.obj" atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        [obj writeToFile:@"./mesh.obj" atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
 }
