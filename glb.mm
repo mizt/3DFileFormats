@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <vector>
 #import <string>
 
 int main(int argc, char *argv[]) {
@@ -19,7 +20,15 @@ int main(int argc, char *argv[]) {
             
             if(mimeType) {
                 
-                NSData *texture = [[NSData alloc] initWithContentsOfFile:path];
+                NSData *_texture = [[NSData alloc] initWithContentsOfFile:path];
+                
+                NSMutableData *texture = [[NSMutableData alloc] init];
+                [texture appendBytes:_texture.bytes length:_texture.length];
+                
+                // Aligned to 4-byte boundaries.
+                while(texture.length%4!=0) {
+                    [texture appendBytes:new const char[1]{0x20} length:1];
+                }
                 
                 std::string JSON = R"({"asset":{"generator":"RC","version":"2.0"},"scene":0,"scenes":[{"nodes":[0]}],"nodes":[{"mesh":0}],"materials":[{"doubleSided":true,"pbrMetallicRoughness":{"baseColorTexture":{"index":0},"metallicFactor":0,"roughnessFactor":1.0}}],"meshes":[{"primitives":[{"attributes":{"POSITION":0,"TEXCOORD_0":1},"indices":2,"material":0}]}],"textures":[{"sampler":0,"source":0}],"images":[{"bufferView":3,"mimeType":"image/jpeg","name":"texture"}],"accessors":[{"bufferView":0,"componentType":5126,"count":0,"max":[0,0,0],"min":[0,0,0],"type":"VEC3"},{"bufferView":1,"componentType":5126,"count":0,"type":"VEC2"},{"bufferView":2,"componentType":5125,"count":0,"type":"SCALAR"}],"bufferViews":[{"buffer":0,"byteLength":0,"byteOffset":0},{"buffer":0,"byteLength":0,"byteOffset":0},{"buffer":0,"byteLength":0,"byteOffset":0},{"buffer":0,"byteLength":0,"byteOffset":0}],"samplers":[{"magFilter":9729,"minFilter":9987,"wrapS":33071,"wrapT":33071}],"buffers":[{"byteLength":0}]})";
                 
@@ -115,7 +124,12 @@ int main(int argc, char *argv[]) {
                     
                     dict[@"buffers"][0][@"byteLength"] = [NSNumber numberWithInt:offset];
                     
-                    NSData *json = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingWithoutEscapingSlashes|NSJSONWritingSortedKeys error:nil];
+                    NSMutableData *json = [[NSMutableData alloc] init];
+                    [json appendData:[NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingWithoutEscapingSlashes|NSJSONWritingSortedKeys error:nil]];
+                    
+                    while(json.length%4!=0) {
+                        [json appendBytes:new const char[1]{0x20} length:1];
+                    }
                     
                     NSMutableData *glb = [[NSMutableData alloc] init];
                     [glb appendBytes:new const char[4]{'g','l','T','F'} length:4];
